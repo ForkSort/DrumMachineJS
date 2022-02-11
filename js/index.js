@@ -1,4 +1,3 @@
-import Drum from "./Drum.js";
 import DrumMachine from "./DrumMachine.js";
 
 /**
