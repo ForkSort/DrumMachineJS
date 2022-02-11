@@ -20,7 +20,7 @@ export default class DrumMachine {
                 ]
             );
             this.drums.push(new Drum({
-                element: drumElement, soundFolder: drumKit.soundFolder, fileName: drum.fileName, id: drum.id, key: drum.key
+                element: drumElement, soundFolder: drumKit.soundFolder, fileName: drum.fileName, key: drum.key
             }));
             fragment.appendChild(drumElement);
         }
