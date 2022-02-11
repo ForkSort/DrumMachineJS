@@ -16,7 +16,7 @@ export default class Drum extends Audio {
        document.addEventListener('keyup', this.keyUp);
        this.clickDrum = this.clickDrum.bind(this);
        this.element = element;
-       this.element.addEventListener("click", this.clickDrum);
+       this.element.addEventListener('mousedown', this.clickDrum);
    }
    hit() {
        this.pause();
@@ -24,7 +24,7 @@ export default class Drum extends Audio {
        this.play();
    }
    keyDown(event) {
-       if (event.key != this.key) return;
+       if (event.key != this.key || event.repeat) return;
        this.element.classList.add("down");
        this.hit();
    }
