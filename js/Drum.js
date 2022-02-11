@@ -4,19 +4,16 @@
 export default class Drum extends Audio {
 
    constructor(props) {
-       const {element, soundFolder, fileName, id, key} = props;
+       const {element, soundFolder, fileName, key} = props;
 
        super(`${soundFolder}${fileName}`);
        this.load();
-       //this.audio.load(); 
-       this.fileName = fileName;
        this.key = key;
-       this.id = id;
+
        this.keyDown = this.keyDown.bind(this);
        document.addEventListener('keydown', this.keyDown);
        this.keyUp = this.keyUp.bind(this);
        document.addEventListener('keyup', this.keyUp);
-
        this.clickDrum = this.clickDrum.bind(this);
        this.element = element;
        this.element.addEventListener("click", this.clickDrum);
