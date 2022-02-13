@@ -53,7 +53,6 @@ button {
     inset -1px -1px 2px 2px black, 
     inset 2px 1px 2px 2px rgb(209, 180, 63), 
     inset 0 0 24px 16px rgb(177, 124, 44);
-    transition: ease-in-out background-color 0.25s;
 }
 button * { pointer-events: none } /* disallow event-triggers on child-elements */
 button > h3 {
