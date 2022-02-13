@@ -1,23 +1,26 @@
 import DrumMachine from "./DrumMachine.js";
 
+const audioContext = new AudioContext();
+const buffer = audioContext.createBuffer(2, 22050, 44100); // create a buffer with 2 channels at 22kHz bitrate per channel
 /**
  * Instantiate the drum machine with custom drums.
- * @param element - the DOM element holding the drum-machine
- * @param drumKit - Object with custom drumkit params. ('key' is the keyboard-mapping key, 'id' is a name-identifier)
+ * @param parent - the DOM element to render the drum-machine at
+ * @param audioContext - the audioContext instance
+ * @param audioOutput - audio output destination
+ * @param drumKit - array of objects with custom drum params. ('key' is the keyboard-mapping key, 'id' is a name-identifier)
  */
 const drumMachine = new DrumMachine({
-    element: document.querySelector(".drum-machine"),
-    drumKit: {
-        soundFolder: "./sounds/", 
-        drums: [
-            {fileName: "clap.wav", id: "clap", key: 8},
-            {fileName: "hihat.wav", id: "hihat", key: 9},
-            {fileName: "kick.wav", id: "kick", key: 4},
-            {fileName: "openhat.wav", id: "openhat", key: 5},
-            {fileName: "ride.wav", id: "ride", key: 6},
-            {fileName: "snare.wav", id: "snare", key: 1},
-            {fileName: "tink.wav", id: "tink", key: 2},
-            {fileName: "tom.wav", id: "tom", key: 3}
-        ]
-    }
+    parent: document.getElementById("root"),
+    audioContext: audioContext,
+    audioOutput: audioContext.destination,
+    drumKit: [
+        {soundUrl: "./sounds/clap.wav", id: "clap", key: 8},
+        {soundUrl: "./sounds/hihat.wav", id: "hihat", key: 9},
+        {soundUrl: "./sounds/kick.wav", id: "kick", key: 4},
+        {soundUrl: "./sounds/openhat.wav", id: "openhat", key: 5},
+        {soundUrl: "./sounds/ride.wav", id: "ride", key: 6},
+        {soundUrl: "./sounds/snare.wav", id: "snare", key: 1},
+        {soundUrl: "./sounds/tink.wav", id: "tink", key: 2},
+        {soundUrl: "./sounds/tom.wav", id: "tom", key: 3}
+    ]
 })
