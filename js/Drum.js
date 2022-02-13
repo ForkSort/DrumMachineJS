@@ -1,37 +1,42 @@
 /**
-* Drum class, extends the HTML-Audio class. Each instance controls its own events.
-*/
-export default class Drum extends Audio {
+ * Drum class,
+ * @param {*} props {element: dom-element for this instance, audioContext: the audiocontext instance, audioOutput: audio output destination, soundUrl: url to the soundfile}
+ */
+export default class Drum {
+    constructor(props) {
+        const {element, audioContext, audioOutput, soundUrl} = props;
 
-   constructor(props) {
-       const {element, soundFolder, fileName, key} = props;
+        this.element = element;
+        this.audioContext = audioContext;
+        this.audioOutput = audioOutput;
+        this.audioBuffer;
+        this.fetchAudio = this.fetchAudio.bind(this);
+        this.fetchAudio(soundUrl);
+        this.primaryGainControl = this.audioContext.createGain();
+        this.primaryGainControl.gain.setValueAtTime(0.8, 0);
+        this.primaryGainControl.connect(audioOutput);
+    }
+    async fetchAudio(soundUrl) {
+        const response = await fetch(soundUrl);
+        const responseBuffer = await response.arrayBuffer();
+        this.audioBuffer = await this.audioContext.decodeAudioData(responseBuffer);
+    }
+    play() {
+        const audioSource = this.audioContext.createBufferSource();
+        audioSource.buffer = this.audioBuffer;
+        audioSource.connect(this.primaryGainControl);
+        audioSource.start();
 
-       super(`${soundFolder}${fileName}`);
-       this.load();
-       this.key = key;
-
-       this.keyDown = this.keyDown.bind(this);
-       document.addEventListener('keydown', this.keyDown);
-       this.keyUp = this.keyUp.bind(this);
-       document.addEventListener('keyup', this.keyUp);
-       this.clickDrum = this.clickDrum.bind(this);
-       this.element = element;
-       this.element.addEventListener('mousedown', this.clickDrum);
-   }
-   hit() {
-       this.pause();
-       this.currentTime = 0;
-       this.play();
-   }
-   keyDown(event) {
-       if (event.key != this.key || event.repeat) return;
-       this.element.classList.add("down");
-       this.hit();
-   }
-   keyUp(event) {
-       this.element.classList.remove("down");
-   }
-   clickDrum(event) {
-       this.hit();
-   }
-}
+        this.element.animate(
+            [
+                { backgroundColor: '#fa0', borderColor: '#c99f35' },
+                { backgroundColor: '#c99f35', borderColor: '#630' }
+            ],
+            {
+                duration: 250,
+                iterations: 1
+            }
+        ).play();
+            
+    }
+ }
