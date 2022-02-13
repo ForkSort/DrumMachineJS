@@ -1,6 +1,7 @@
 import Drum from "./Drum.js";
+import Oscilator from "./Oscilator.js";
 /**
- * DrumMachine class, creates DOM-elements for each drum-instance and instantiates the Drum-instances.
+ * DrumMachine class, creates DOM-elements/instances for each drum-instance. 
  * @param {*} props {parent: parent-DOM element to render at, audioContext: the audioContext instance, audioOutput: audio output destination, drumKit: array[{soundUrl: url, id: a name, key: keyboard-mapping key}]}
  */
 export default class DrumMachine {
@@ -21,7 +22,7 @@ export default class DrumMachine {
                         ["br", {}], 
                         ["span", {textContent: "MACHINE"}]
                     ]],
-                    //["canvas", {id: "oscilloscope"}]
+                    ["canvas", {id: "oscilloscope"}]
                 ]]
             ]
         );
@@ -58,7 +59,12 @@ export default class DrumMachine {
             if (this.drums[event.key] === undefined || event.repeat) return;
             this.drums[event.key].play();
             event.preventDefault();
-        });  
+        });
+        this.oscilator = new Oscilator({
+            element: document.getElementById("oscilloscope"),
+            audioContext: this.audioContext,
+            audioInput: this.primaryGainControl
+        })
     }
     /**
      * Parses parameters through document.createElement, and returns a DOM (if children param is specified, then with the children appended).
